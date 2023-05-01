@@ -17,7 +17,7 @@ pacman -S monero p2pool xmrig
 Sync the monero node first
 
 ```sh
-git clone https://github.com/clemenscodes/monero
+git clone https://github.com/clemenscodes/monero.git
 cd monero
 ./scripts/monero.sh
 ```
