@@ -24,6 +24,7 @@ WORKDIR /src
 
 ARG NPROC
 RUN set -ex && \
+    git fetch --tags && git checkout $(git describe --tags $(git rev-list --tags --max-count=1)) && \
     git submodule init && git submodule update && \
     rm -rf build && \
     if [ -z "$NPROC" ] ; \

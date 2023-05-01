@@ -1,2 +1,7 @@
-chain/lmdb
-wallets/**/
+data/lmdb
+**/*.bin
+**/*.crt
+**/*.key
+**/*.log
+private/**/
+logs/**/

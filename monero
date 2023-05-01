@@ -1,14 +1,14 @@
 #!/bin/sh
 
-# --zmq-pub=tcp://127.0.0.1:18083 \
+script_path="$(realpath "$0")"
+script_dir="$(dirname "$script_path")"
 
 /usr/bin/monerod \
-    --data-dir=/home/clay/monero/chain \
-    --out-peers=64 \
-    --in-peers=32 \
-    --add-priority-node=node.supportxmr.com:18080 \
-    --add-priority-node=nodes.hashvault.pro:18080 \
-    --disable-dns-checkpoints \
+    --data-dir="$script_dir/data" \
+    --log-file="$script_dir/logs/monerod.log" \
     --confirm-external-bind \
-    --enable-dns-blocklist \
+    --p2p-bind-ip=127.0.0.1 \
+    --p2p-bind-port=18080 \
+    --rpc-bind-ip=127.0.0.1 \
+    --rpc-bind-port=18081 \
     --detach
