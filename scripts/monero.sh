@@ -2,10 +2,11 @@
 
 script_path="$(realpath "$0")"
 script_dir="$(dirname "$script_path")"
+root_dir="$(dirname "$script_dir")"
 
 /usr/bin/monerod \
-    --data-dir="$script_dir/data" \
-    --log-file="$script_dir/logs/monerod.log" \
+    --data-dir="$root_dir/data" \
+    --log-file="$root_dir/logs/monerod.log" \
     --confirm-external-bind \
     --p2p-bind-ip=127.0.0.1 \
     --p2p-bind-port=18080 \
