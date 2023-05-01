@@ -7,5 +7,6 @@ data/p2pool/**
 **/*.keys
 private/**
 logs/**/
-p2pool_peers.txt
-p2pool.cache
+**/p2pool_peers.txt
+**/p2pool.cache
+**/p2pool.blocks
