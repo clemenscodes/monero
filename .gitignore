@@ -3,5 +3,6 @@ data/lmdb
 **/*.crt
 **/*.key
 **/*.log
-private/**/
+**/*.keys
+private/**
 logs/**/
