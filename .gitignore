@@ -11,3 +11,4 @@ logs/**/
 **/p2pool.cache
 **/p2pool.blocks
 !data
+!data/p2pool/.gitkeep
