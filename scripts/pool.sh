@@ -9,5 +9,6 @@ p2pool \
     --wallet 49j7AMxXgkBVioejSyBkxBXQSfDDVB9U71vqimeaLrDRBeaK5jc3NH5RNBHTgKSofeGWuCqRRUZTDbRcctVswNXEKSwszEN \
     --data-api "$root_dir/data/p2pool" \
     --local-api \
+    --no-color \
     --loglevel 3 \
-    --mini
+    --mini 

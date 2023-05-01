@@ -18,8 +18,6 @@ RUN git clone https://github.com/xmrig/xmrig.git && \
     cmake .. && \
     make -j$(nproc)
 
-# ---
-
 FROM ubuntu:20.04
 
 COPY --from=0 /usr/src/xmrig/build/xmrig /
@@ -34,4 +32,5 @@ RUN set -e && \
     apt-get clean
 
 WORKDIR /
+EXPOSE 3334
 ENTRYPOINT ["/xmrig"]

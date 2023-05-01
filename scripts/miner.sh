@@ -8,6 +8,6 @@ xmrig \
     -o 127.0.0.1:3333 \
     -c "$root_dir/config/xmrig.json" \
     -l "$root_dir/logs/xmrig.log" \
-    -api-worker-id miner \
     --http-host 127.0.0.1 \
-    --http-port 3334
+    --http-port 3334 \
+    -B

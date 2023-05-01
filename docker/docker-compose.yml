@@ -1,5 +1,10 @@
 version: "3.9"
-name: monero
+networks:
+    p2pool:
+        driver: bridge
+volumes:
+    p2pool:
+    monero:
 services:
     monero:
         build:
@@ -8,19 +13,45 @@ services:
         restart: unless-stopped
         container_name: monerod
         ports:
-            - "18080:18080"
-            - "18081:18081"
+            - 18080:18080/tcp
+            - 18081:18081/tcp
+            - 18083:18083/tcp
+        volumes:
+            - monero:/home/monero/.bitmonero:rw
+            - /dev/null:/home/monero/.bitmonero/bitmonero.log:rw
+            - /dev/hugepages:/dev/hugepages:rw
+        networks:
+            - p2pool
+        command: >-
+            --zmq-pub tcp://0.0.0.0:18083
+            --disable-dns-checkpoints
+            --enable-dns-blocklist
+            --out-peers 32
+            --in-peers 16
+            --add-priority-node=nodes.hashvault.pro:18080
+            --add-priority-node=node.supportxmr.com:18080
+            --non-interactive
+            --p2p-bind-ip=0.0.0.0
+            --p2p-bind-port=18080
+            --rpc-bind-ip=0.0.0.0
+            --rpc-bind-port=18081
+            --restricted-rpc
+            --confirm-external-bind
+            --log-level=0
+            --prune-blockchain
+            --fast-block-sync=1
     p2pool:
-        image: p2pool:latest
-        build: 
+        build:
             context: .
             dockerfile: p2pool.Dockerfile
-        container_name: p2pool-p2pool
+        container_name: p2pool
         networks:
             - p2pool
         privileged: true
         ports:
+            - 3333:3333/tcp
             - 37888:37888/tcp
+            - 37889:37889/tcp
         volumes:
             - p2pool:/home/p2pool/.p2pool:rw
             - /dev/null:/home/p2pool/.p2pool/p2pool.log:rw
@@ -34,3 +65,29 @@ services:
             --loglevel 3
             --local-api
             --data-api /home/p2pool/.p2pool
+    xmrig:
+        build:
+            context: .
+            dockerfile: xmrig.Dockerfile
+        container_name: xmrig
+        networks:
+            - p2pool
+        privileged: true
+        ports:
+            - 3334:3334/tcp
+        volumes:
+            - /dev:/dev:ro
+            - /lib/modules:/lib/modules:ro
+            - /dev/hugepages:/dev/hugepages:rw
+        depends_on:
+            - p2pool
+        restart: unless-stopped
+        command: >-
+            -o p2pool:3333
+            -u p2pool
+            --randomx-1gb-pages
+            --api-worker-id miner 
+            --http-host xmrig
+            --http-port 3334
+            --cpu-max-threads-hint=100
+            --cpu-priority=2
