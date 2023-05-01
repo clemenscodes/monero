@@ -1,4 +1,4 @@
-# Monero Mining
+# Monero P2Pool
 
 Scripts and docker files to start mining monero quickly
 
