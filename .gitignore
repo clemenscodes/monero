@@ -1,4 +1,5 @@
 data/lmdb
+data/p2pool/**
 **/*.bin
 **/*.crt
 **/*.key
@@ -6,3 +7,5 @@ data/lmdb
 **/*.keys
 private/**
 logs/**/
+p2pool_peers.txt
+p2pool.cache

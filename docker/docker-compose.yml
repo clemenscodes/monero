@@ -1,13 +1,36 @@
-version: '3.9'
+version: "3.9"
 name: monero
 services:
-  monerod:
-    build:
-      context: .
-      dockerfile: monero.Dockerfile
-    restart: unless-stopped
-    container_name: monerod
-    ports:
-      - "18080:18080"
-      - "18081:18081"
-
+    monero:
+        build:
+            context: .
+            dockerfile: monero.Dockerfile
+        restart: unless-stopped
+        container_name: monerod
+        ports:
+            - "18080:18080"
+            - "18081:18081"
+    p2pool:
+        image: p2pool:latest
+        build: 
+            context: .
+            dockerfile: p2pool.Dockerfile
+        container_name: p2pool-p2pool
+        networks:
+            - p2pool
+        privileged: true
+        ports:
+            - 37888:37888/tcp
+        volumes:
+            - p2pool:/home/p2pool/.p2pool:rw
+            - /dev/null:/home/p2pool/.p2pool/p2pool.log:rw
+            - /dev/hugepages:/dev/hugepages:rw
+        depends_on:
+            - monero
+        restart: unless-stopped
+        command: >-
+            --host monero
+            --wallet 49j7AMxXgkBVioejSyBkxBXQSfDDVB9U71vqimeaLrDRBeaK5jc3NH5RNBHTgKSofeGWuCqRRUZTDbRcctVswNXEKSwszEN
+            --loglevel 3
+            --local-api
+            --data-api /home/p2pool/.p2pool
