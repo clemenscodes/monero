@@ -1,0 +1,16 @@
+version: '3.9'
+name: monero
+services:
+  monerod:
+    build:
+      context: .
+      dockerfile: monero.Dockerfile
+    restart: unless-stopped
+    container_name: monerod
+    ports:
+      - "18080:18080"
+      - "18081:18081"
+    volumes:
+      - './chain:/home/monero/.bitmonero'
+      - './wallets/p2pool:/wallet'
+

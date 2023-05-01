@@ -1,0 +1,3 @@
+#!/bin/sh
+
+monero-wallet-cli --wallet-file=/home/clay/monero/wallet.keys
